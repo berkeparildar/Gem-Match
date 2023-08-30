@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
             gridOperations.RemoveGems(GridOperations.SelectedMatchVertical);
             gridOperations.RemoveGems(GridOperations.TargetMatchHorizontal);
             gridOperations.RemoveGems(GridOperations.TargetMatchVertical);
-            GridOperations.MoveGemsAfterRemoval();
+            gridOperations.MoveGemsAfterRemoval();
         });
         MatchExists = false;
     }

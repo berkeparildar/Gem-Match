@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GridOperations : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GridOperations : MonoBehaviour
     public static List<GameObject> SelectedMatchVertical;
     public static List<GameObject> TargetMatchVertical;
     public static List<GameObject> TargetMatchHorizontal;
+
+    public GameObject[] gemPrefabs;
 
     public GameObject nullObject;
     public GameObject gemContainer;
@@ -24,6 +27,12 @@ public class GridOperations : MonoBehaviour
 
     void Update()
     {
+    }
+
+    public GameObject GetRandomGem()
+    {
+        var randomGem = gemPrefabs[Random.Range(0, gemPrefabs.Length - 1)];
+        return randomGem;
     }
 
     public static void SwapGemsOnGrid(Vector2Int gem1Position, Vector2Int gem2Position)
@@ -216,7 +225,7 @@ public class GridOperations : MonoBehaviour
         matchingGems.Clear();
     }
 
-    public static void MoveGemsAfterRemoval()
+    public void MoveGemsAfterRemoval()
     {
         List<GameObject> movingGems = new List<GameObject>();
         for (var j = GameManager.Columns - 1; j >= 0; j--)
@@ -228,11 +237,21 @@ public class GridOperations : MonoBehaviour
                     // need to figure out if the null object is a result of horizontal or vertical match
                     if (i is 0 or 1)
                     {
-                        Debug.Log("here");
+                        Debug.Log(movingGems.Count);
                         // this is 100% horizontal
                         for (int k = 0; k < movingGems.Count; k++)
                         {
-                            movingGems[i].transform.DOMoveY(-1, 1).SetRelative();
+                            var currentPos = movingGems[k].transform.position;
+                            var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
+                            GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
+                            movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
+                            movingGems[k].transform.DOMoveY(-1, 1).SetRelative();
+                            var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, GameManager.Columns, 0),
+                                Quaternion.identity);
+                            newGem.transform.DOMoveY(-1, 1).SetRelative();
+                            GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
+                            newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
+                            newGem.transform.SetParent(gemContainer.transform);
                         }
                     }
                     else if (GameManager.Grid[j, i - 1].CompareTag("nullObject"))
