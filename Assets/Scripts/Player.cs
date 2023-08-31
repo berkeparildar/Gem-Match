@@ -36,7 +36,6 @@ public class Player : MonoBehaviour
         {
             if (dragDirection.x > 0.5f)
             {
-                Debug.Log("right swipe");
                 if (_selectedGem != null)
                 {
                     var position = _selectedGem.transform.position;
@@ -56,7 +55,6 @@ public class Player : MonoBehaviour
             }
             else if (dragDirection.x < -0.5f)
             {
-                Debug.Log("left swipe");
                 if (_selectedGem != null)
                 {
                     var position = _selectedGem.transform.position;
@@ -76,7 +74,6 @@ public class Player : MonoBehaviour
             }
             else if (dragDirection.y > 0.5f)
             {
-                Debug.Log("up swipe");
                 if (_selectedGem != null)
                 {
                     var position = _selectedGem.transform.position;
@@ -96,7 +93,6 @@ public class Player : MonoBehaviour
             }
             else if (dragDirection.y < -0.5f)
             {
-                Debug.Log("down swipe");
                 if (_selectedGem != null)
                 {
                     var position = _selectedGem.transform.position;
@@ -146,6 +142,7 @@ public class Player : MonoBehaviour
             gridOperations.RemoveGems(GridOperations.TargetMatchHorizontal);
             gridOperations.RemoveGems(GridOperations.TargetMatchVertical);
             gridOperations.MoveGemsAfterRemoval();
+            GridOperations.PrintGrid();
         });
         MatchExists = false;
     }

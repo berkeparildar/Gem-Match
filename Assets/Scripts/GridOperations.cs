@@ -16,6 +16,7 @@ public class GridOperations : MonoBehaviour
 
     public GameObject nullObject;
     public GameObject gemContainer;
+    private bool _init = true;
 
     private void Awake()
     {
@@ -235,32 +236,33 @@ public class GridOperations : MonoBehaviour
                 if (GameManager.Grid[j, i].CompareTag("nullObject"))
                 {
                     // need to figure out if the null object is a result of horizontal or vertical match
-                    if (i is 0 or 1)
+                    if (i >= 2 && GameManager.Grid[j, i - 1].CompareTag("nullObject"))
                     {
-                        Debug.Log(movingGems.Count);
+                        Debug.Log("VERTICAL MOVEMENT");
+                        
+                    }
+                    else
+                    {
                         // this is 100% horizontal
-                        for (int k = 0; k < movingGems.Count; k++)
+                        for (int k = movingGems.Count - 1; k >= 0; k--)
                         {
                             var currentPos = movingGems[k].transform.position;
                             var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
                             GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
                             movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
                             movingGems[k].transform.DOMoveY(-1, 1).SetRelative();
-                            var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, GameManager.Columns, 0),
-                                Quaternion.identity);
-                            newGem.transform.DOMoveY(-1, 1).SetRelative();
-                            GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
-                            newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
-                            newGem.transform.SetParent(gemContainer.transform);
+                            if (_init && k == 0)
+                            {
+                                _init = false;
+                                var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
+                                    GameManager.Rows, 0), Quaternion.identity);
+                                newGem.transform.DOMoveY(-1, 1).SetRelative();
+                                GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
+                                newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
+                                newGem.transform.SetParent(gemContainer.transform);
+                            }
+                            PrintGrid();
                         }
-                    }
-                    else if (GameManager.Grid[j, i - 1].CompareTag("nullObject"))
-                    {
-                        // this is vertical
-                    }
-                    else
-                    {
-                        // this should mean that it is horizontal
                     }
                 }
                 else
@@ -268,7 +270,37 @@ public class GridOperations : MonoBehaviour
                     movingGems.Add(GameManager.Grid[j, i]);
                 }
             }
+            _init = true;
             movingGems.Clear();
         }
+        //CheckNull();
+    }
+
+    public static void CheckNull()
+    {
+        for (var i = 0; i < GameManager.Rows; i++)
+        {
+            for (var j = 0; j < GameManager.Columns; j++)
+            {
+                if (GameManager.Grid[j, i].CompareTag("nullObject"))
+                {
+                    Debug.Log("NULL EXISTS AT " + j + "," + i);
+                }
+            }
+        }
+    }
+
+    public static void PrintGrid()
+    {
+        var str = "";
+        for (var i = GameManager.Rows - 1; i >= 0; i--)
+        {
+            for (var j = 0; j < GameManager.Columns; j++)
+            {
+                str += GameManager.Grid[j, i].tag[0];
+            }
+            str += "\n";
+        }
+        Debug.Log(str);
     }
 }

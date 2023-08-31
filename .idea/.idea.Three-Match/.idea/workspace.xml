@@ -12,11 +12,14 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/4b/5be1f75a/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fcc0bbf6bf4e430c91d4aa05736fc5c62ac00/c7/935f65aa/DOTweenComponent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fcc0bbf6bf4e430c91d4aa05736fc5c62ac00/cb/1ef8cafc/TweenManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fcc0bbf6bf4e430c91d4aa05736fc5c62ac00/d4/8ffb5458/Tween.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2Uevt5zqm5s3UAlAsAmwWPJCmOC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,7 +30,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.3567073",
+    "XThreadsFramesViewSplitterKey": "0.30218068",
+    "full.screen.before.presentation.mode": "false",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -43,7 +47,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Development\UnityEditor\2022.3.7f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\Projects\Three-Match -debugCodeOptimization" />
@@ -60,20 +64,20 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="7388">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="24880">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="7388" />
+      <option name="pid" value="24880" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="7388">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="7388" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -89,7 +93,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1693313077629</updated>
-      <workItem from="1693313090138" duration="27291000" />
+      <workItem from="1693313090138" duration="31346000" />
+      <workItem from="1693438541924" duration="2722000" />
     </task>
     <servers />
   </component>
@@ -106,81 +111,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GridOperations.cs</url>
-          <line>229</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GridOperations.cs" initialLine="220" containingFunctionPresentation="Method 'MoveGemsAfterRemoval'">
+          <line>230</line>
+          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GridOperations.cs" initialLine="230" containingFunctionPresentation="Method 'MoveGemsAfterRemoval'">
             <startOffsets>
-              <option value="6773" />
+              <option value="6804" />
             </startOffsets>
             <endOffsets>
-              <option value="6826" />
+              <option value="6857" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GridOperations.cs</url>
-          <line>238</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GridOperations.cs" initialLine="229" containingFunctionPresentation="Method 'MoveGemsAfterRemoval'">
-            <startOffsets>
-              <option value="7219" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7220" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Player.cs</url>
-          <line>135</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\Player.cs" initialLine="135" containingFunctionPresentation="Method 'MoveGems'">
-            <startOffsets>
-              <option value="5109" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5184" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Player.cs</url>
-          <line>133</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\Player.cs" initialLine="133" containingFunctionPresentation="Method 'MoveGems'">
-            <startOffsets>
-              <option value="5009" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5010" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GridOperations.cs</url>
-          <line>231</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GridOperations.cs" initialLine="222" containingFunctionPresentation="Method 'MoveGemsAfterRemoval'">
-            <startOffsets>
-              <option value="6894" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6895" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameManager.cs</url>
-          <line>19</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GameManager.cs" initialLine="19" containingFunctionPresentation="Method 'Start'">
-            <startOffsets>
-              <option value="386" />
-            </startOffsets>
-            <endOffsets>
-              <option value="423" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

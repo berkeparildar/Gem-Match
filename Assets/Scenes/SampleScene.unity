@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698e0c2ea34799d448ad5c3182010817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridOperations: {fileID: 0}
+  gridOperations: {fileID: 588517775}
 --- !u!4 &4303045
 Transform:
   m_ObjectHideFlags: 0
@@ -323,8 +323,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ba13e256b61e84f82a2f4131d497d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nullObject: {fileID: 0}
-  gemContainer: {fileID: 0}
+  gemPrefabs:
+  - {fileID: 4530058468947759592, guid: 13c689c97acf37d40bc7fd2c336f1a5b, type: 3}
+  - {fileID: 7665908137011662944, guid: ee1d567a33648214992df5ed70eb5e87, type: 3}
+  - {fileID: 6507784777685539793, guid: f018587e1b5acb8449735a2f4b8881e4, type: 3}
+  - {fileID: 3362640357704209188, guid: 399de94f8e3816a48acc1502b70897f3, type: 3}
+  nullObject: {fileID: 3416249902195646115, guid: e61fbb9a6ac8618429b52baa470de685, type: 3}
+  gemContainer: {fileID: 776274031}
 --- !u!1 &776274031
 GameObject:
   m_ObjectHideFlags: 0

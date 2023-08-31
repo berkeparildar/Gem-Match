@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         Grid = new GameObject[Columns, Rows];
         InitializeGrid();
+        GridOperations.PrintGrid();
     }
     
     private void InitializeGrid()
