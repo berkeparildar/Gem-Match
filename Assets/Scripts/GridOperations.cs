@@ -16,7 +16,8 @@ public class GridOperations : MonoBehaviour
 
     public GameObject nullObject;
     public GameObject gemContainer;
-    private bool _init = true;
+    private bool _horizontalInit = true;
+    private bool _verticalInit = true;
 
     private void Awake()
     {
@@ -154,7 +155,6 @@ public class GridOperations : MonoBehaviour
 
         if (verticalMatches >= 3)
         {
-            Debug.Log("Vertical match");
         }
         else
         {
@@ -207,6 +207,7 @@ public class GridOperations : MonoBehaviour
                     }
                 }
             }
+            //Debug.Log(currentGem.tag);
         }
     }
 
@@ -236,10 +237,45 @@ public class GridOperations : MonoBehaviour
                 if (GameManager.Grid[j, i].CompareTag("nullObject"))
                 {
                     // need to figure out if the null object is a result of horizontal or vertical match
-                    if (i >= 2 && GameManager.Grid[j, i - 1].CompareTag("nullObject"))
+                    if ( GameManager.Grid[j, i - 1].CompareTag("nullObject"))
                     {
-                        Debug.Log("VERTICAL MOVEMENT");
-                        
+                        var nullCount = 1;
+                        //Debug.Log("VERTICAL MOVEMENT");
+                        for (var c = i - 1; c >= 0; c--)
+                        {
+                            var adjacentGem = GameManager.Grid[j, c].gameObject;
+                            if (adjacentGem.CompareTag("nullObject"))
+                            {
+                                nullCount++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        for (int k = movingGems.Count - 1; k >= 0; k--)
+                        {
+                            var currentPos = movingGems[k].transform.position;
+                            var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
+                            GameManager.Grid[gridPos.x, gridPos.y - nullCount] = GameManager.Grid[gridPos.x, gridPos.y];
+                            //Debug.Log(nullCount);
+                            movingGems[k].transform.DOMoveY(-nullCount, 1).SetRelative();
+                            if (_verticalInit && k== 0)
+                            {
+                                _verticalInit = false;
+                                for (int l = nullCount; l > 0; l--)
+                                {
+                                    var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
+                                        GameManager.Rows, 0), Quaternion.identity);
+                                    newGem.transform.DOMoveY(-l, 1).SetRelative();
+                                    GameManager.Grid[gridPos.x, GameManager.Rows - l] = newGem;
+                                    newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - l) + ")";
+                                    newGem.transform.SetParent(gemContainer.transform);
+                                }
+                            }
+                        }
+                        PrintGrid();
                     }
                     else
                     {
@@ -251,9 +287,9 @@ public class GridOperations : MonoBehaviour
                             GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
                             movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
                             movingGems[k].transform.DOMoveY(-1, 1).SetRelative();
-                            if (_init && k == 0)
+                            if (_horizontalInit && k == 0)
                             {
-                                _init = false;
+                                _horizontalInit = false;
                                 var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
                                     GameManager.Rows, 0), Quaternion.identity);
                                 newGem.transform.DOMoveY(-1, 1).SetRelative();
@@ -270,7 +306,8 @@ public class GridOperations : MonoBehaviour
                     movingGems.Add(GameManager.Grid[j, i]);
                 }
             }
-            _init = true;
+            _horizontalInit = true;
+            _verticalInit = true;
             movingGems.Clear();
         }
         //CheckNull();

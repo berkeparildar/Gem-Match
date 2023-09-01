@@ -30,7 +30,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.30218068",
+    "XThreadsFramesViewSplitterKey": "0.25700936",
     "full.screen.before.presentation.mode": "false",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -64,10 +64,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="24880">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="24880" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -94,7 +94,8 @@
       <option name="presentableId" value="Default" />
       <updated>1693313077629</updated>
       <workItem from="1693313090138" duration="31346000" />
-      <workItem from="1693438541924" duration="2722000" />
+      <workItem from="1693438541924" duration="5280000" />
+      <workItem from="1693529691175" duration="1546000" />
     </task>
     <servers />
   </component>
@@ -106,23 +107,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GridOperations.cs</url>
-          <line>230</line>
-          <properties documentPath="D:\Projects\Three-Match\Assets\Scripts\GridOperations.cs" initialLine="230" containingFunctionPresentation="Method 'MoveGemsAfterRemoval'">
-            <startOffsets>
-              <option value="6804" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6857" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
