@@ -9,7 +9,9 @@ TagManager:
   - Star
   - Hexagon
   - nullObject
-  - Yildiz
+  - Heart
+  - Circle
+  - Luna
   layers:
   - Default
   - TransparentFX

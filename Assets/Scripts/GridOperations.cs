@@ -237,8 +237,9 @@ public class GridOperations : MonoBehaviour
                 if (GameManager.Grid[j, i].CompareTag("nullObject"))
                 {
                     // need to figure out if the null object is a result of horizontal or vertical match
-                    if ( GameManager.Grid[j, i - 1].CompareTag("nullObject"))
+                    if (i >= 1 && GameManager.Grid[j, i - 1].CompareTag("nullObject"))
                     {
+                        Debug.Log("In vertical");
                         var nullCount = 1;
                         //Debug.Log("VERTICAL MOVEMENT");
                         for (var c = i - 1; c >= 0; c--)
@@ -290,10 +291,11 @@ public class GridOperations : MonoBehaviour
                                 }
                             }   
                         }
-                        PrintGrid();
+                        //PrintGrid();
                     }
                     else
                     {
+                        Debug.Log("In horizotal");
                         // this is 100% horizontal
                         for (int k = movingGems.Count - 1; k >= 0; k--)
                         {
@@ -312,7 +314,7 @@ public class GridOperations : MonoBehaviour
                                 newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
                                 newGem.transform.SetParent(gemContainer.transform);
                             }
-                            PrintGrid();
+                            //PrintGrid();
                         }
                     }
                 }
