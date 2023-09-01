@@ -299,24 +299,40 @@ public class GridOperations : MonoBehaviour
                     {
                         Debug.Log("In horizotal");
                         // this is 100% horizontal
-                        for (int k = movingGems.Count - 1; k >= 0; k--)
+                        if (movingGems.Count > 0)
                         {
-                            var currentPos = movingGems[k].transform.position;
-                            var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
-                            GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
-                            movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
-                            movingGems[k].transform.DOMoveY(-1, 0.5f).SetRelative();
-                            if (_horizontalInit && k == 0)
+                            for (int k = movingGems.Count - 1; k >= 0; k--)
+                            {
+                                var currentPos = movingGems[k].transform.position;
+                                var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
+                                GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
+                                movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
+                                movingGems[k].transform.DOMoveY(-1, 0.5f).SetRelative();
+                                if (_horizontalInit && k == 0)
+                                {
+                                    _horizontalInit = false;
+                                    var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
+                                        GameManager.Rows, 0), Quaternion.identity);
+                                    newGem.transform.DOMoveY(-1, 0.5f).SetRelative();
+                                    GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
+                                    newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
+                                    newGem.transform.SetParent(gemContainer.transform);
+                                }
+                                //PrintGrid();
+                            }
+                        }
+                        else
+                        {
+                            if (_horizontalInit)
                             {
                                 _horizontalInit = false;
-                                var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
+                                var newGem = Instantiate(GetRandomGem(), new Vector3(j, 
                                     GameManager.Rows, 0), Quaternion.identity);
                                 newGem.transform.DOMoveY(-1, 0.5f).SetRelative();
-                                GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
-                                newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
+                                GameManager.Grid[j, GameManager.Rows - 1] = newGem;
+                                newGem.name = "(" + j + "," + (GameManager.Rows - 1) + ")";
                                 newGem.transform.SetParent(gemContainer.transform);
                             }
-                            //PrintGrid();
                         }
                     }
                 }

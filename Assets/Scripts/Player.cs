@@ -179,14 +179,17 @@ public class Player : MonoBehaviour
         if (GridOperations.RemovalGems.Count > 0)
         {
             Debug.Log(GridOperations.RemovalGems.Count);
-            CheckForMatchesAfterRemoval();
+            StartCoroutine(CheckForMatchesAfterRemoval());
+            yield break;
         }
     }
     
-    private void CheckForMatchesAfterRemoval()
+    private IEnumerator CheckForMatchesAfterRemoval()
     {
         gridOperations.RemoveGems(GridOperations.RemovalGems);
         gridOperations.MoveGemsAfterRemoval();
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(CheckIfMatchExists());
     }
     
     private void CheckForMatches(int col, int row)
