@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -143,6 +144,8 @@ public class Player : MonoBehaviour
             gridOperations.RemoveGems(GridOperations.TargetMatchVertical);
             gridOperations.MoveGemsAfterRemoval();
             GridOperations.PrintGrid();
+            StartCoroutine(CheckIfMatchExists());
+
         });
         MatchExists = false;
     }
@@ -160,5 +163,97 @@ public class Player : MonoBehaviour
             targetGem.transform.DOMove(new Vector3(targetGemPosition.x, targetGemPosition.y, 0), 0.5f);
         });
         MatchExists = false;
+    }
+
+    private IEnumerator CheckIfMatchExists()
+    {
+        yield return new WaitForSeconds(1.0f);
+        for (var i = 0; i < GameManager.Rows; i++)
+        {
+            for (var j = 0; j < GameManager.Columns; j++)
+            {
+                CheckForMatches(j, i);
+            }
+        }
+
+        if (GridOperations.RemovalGems.Count > 0)
+        {
+            Debug.Log(GridOperations.RemovalGems.Count);
+            CheckForMatchesAfterRemoval();
+        }
+    }
+    
+    private void CheckForMatchesAfterRemoval()
+    {
+        gridOperations.RemoveGems(GridOperations.RemovalGems);
+        gridOperations.MoveGemsAfterRemoval();
+    }
+    
+    private void CheckForMatches(int col, int row)
+    {
+        var currentGem = GameManager.Grid[col, row];
+        var destroyedGems = new List<GameObject>();
+        var horizontalMatches = 1;
+        for (var c = col - 1; c >= 0; c--)
+        {
+            var adjacentGem = GameManager.Grid[c, row].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                horizontalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (var c = col + 1; c < GameManager.Columns; c++)
+        {
+            var adjacentGem = GameManager.Grid[c, row].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                horizontalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        
+        var verticalMatches = 1;
+        for (var r = row - 1; r >= 0; r--)
+        {
+            var adjacentGem = GameManager.Grid[col, r].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                verticalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (var r = row + 1; r < GameManager.Rows; r++)
+        {
+            var adjacentGem = GameManager.Grid[col, r].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                verticalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (horizontalMatches >= 3 || verticalMatches >= 3)
+        {
+            Debug.Log("Match exists");
+            if (!GridOperations.RemovalGems.Contains(currentGem))
+            {
+                GridOperations.RemovalGems.Add(currentGem);
+            }
+        }
     }
 }

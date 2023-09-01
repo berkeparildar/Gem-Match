@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject GemContainer;
 
+    public GridOperations gridOperations;
+
     public const int Rows = 10;
 
     public const int Columns = 7;
@@ -88,5 +90,77 @@ public class GameManager : MonoBehaviour
             }
         }
         return verticalMatches >= 3;
+    }
+    
+    private void CheckForMatches(int col, int row)
+    {
+        var currentGem = Grid[col, row];
+        var destroyedGems = new List<GameObject>();
+        var horizontalMatches = 1;
+        for (var c = col - 1; c >= 0; c--)
+        {
+            var adjacentGem = Grid[c, row].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                horizontalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (var c = col + 1; c < Columns; c++)
+        {
+            var adjacentGem = Grid[c, row].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                horizontalMatches++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (horizontalMatches >= 3)
+        {
+            destroyedGems.Add(currentGem);
+        }
+
+        var verticalMatches = 1;
+        for (var r = row - 1; r >= 0; r--)
+        {
+            var adjacentGem = Grid[col, r].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                verticalMatches++;
+                destroyedGems.Add(adjacentGem);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for (var r = row + 1; r < Rows; r++)
+        {
+            var adjacentGem = Grid[col, r].gameObject;
+            if (adjacentGem.CompareTag(currentGem.tag))
+            {
+                verticalMatches++;
+                destroyedGems.Add(adjacentGem);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (horizontalMatches >= 3 || verticalMatches >= 3)
+        {
+            Debug.Log("Match exists");
+            gridOperations.RemoveGems(destroyedGems);
+        }
     }
 }

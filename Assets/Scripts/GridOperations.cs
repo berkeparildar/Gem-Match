@@ -11,6 +11,7 @@ public class GridOperations : MonoBehaviour
     public static List<GameObject> SelectedMatchVertical;
     public static List<GameObject> TargetMatchVertical;
     public static List<GameObject> TargetMatchHorizontal;
+    public static List<GameObject> RemovalGems;
 
     public GameObject[] gemPrefabs;
 
@@ -25,6 +26,7 @@ public class GridOperations : MonoBehaviour
         SelectedMatchHorizontal = new List<GameObject>();
         TargetMatchVertical = new List<GameObject>();
         TargetMatchHorizontal = new List<GameObject>();
+        RemovalGems = new List<GameObject>();
     }
 
     void Update()
@@ -261,7 +263,7 @@ public class GridOperations : MonoBehaviour
                             {
                                 var newGem = Instantiate(GetRandomGem(), new Vector3(j, 
                                     GameManager.Rows, 0), Quaternion.identity);
-                                newGem.transform.DOMoveY(-l, 1).SetRelative();
+                                newGem.transform.DOMoveY(-l, 0.5f).SetRelative();
                                 GameManager.Grid[j, GameManager.Rows - l] = newGem;
                                 newGem.name = "(" + j + "," + (GameManager.Rows - l) + ")";
                                 newGem.transform.SetParent(gemContainer.transform);
@@ -275,7 +277,7 @@ public class GridOperations : MonoBehaviour
                                 var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
                                 GameManager.Grid[gridPos.x, gridPos.y - nullCount] = GameManager.Grid[gridPos.x, gridPos.y];
                                 //Debug.Log(nullCount);
-                                movingGems[k].transform.DOMoveY(-nullCount, 1).SetRelative();
+                                movingGems[k].transform.DOMoveY(-nullCount, 0.5f).SetRelative();
                                 if (_verticalInit && k== 0)
                                 {
                                     _verticalInit = false;
@@ -283,7 +285,7 @@ public class GridOperations : MonoBehaviour
                                     {
                                         var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
                                             GameManager.Rows, 0), Quaternion.identity);
-                                        newGem.transform.DOMoveY(-l, 1).SetRelative();
+                                        newGem.transform.DOMoveY(-l, 0.5f).SetRelative();
                                         GameManager.Grid[gridPos.x, GameManager.Rows - l] = newGem;
                                         newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - l) + ")";
                                         newGem.transform.SetParent(gemContainer.transform);
@@ -303,13 +305,13 @@ public class GridOperations : MonoBehaviour
                             var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
                             GameManager.Grid[gridPos.x, gridPos.y - 1] = GameManager.Grid[gridPos.x, gridPos.y];
                             movingGems[k].name = "(" + gridPos.x + "," + (gridPos.y - 1) + ")";
-                            movingGems[k].transform.DOMoveY(-1, 1).SetRelative();
+                            movingGems[k].transform.DOMoveY(-1, 0.5f).SetRelative();
                             if (_horizontalInit && k == 0)
                             {
                                 _horizontalInit = false;
                                 var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
                                     GameManager.Rows, 0), Quaternion.identity);
-                                newGem.transform.DOMoveY(-1, 1).SetRelative();
+                                newGem.transform.DOMoveY(-1, 0.5f).SetRelative();
                                 GameManager.Grid[gridPos.x, GameManager.Rows - 1] = newGem;
                                 newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - 1) + ")";
                                 newGem.transform.SetParent(gemContainer.transform);
