@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     private GameObject SelectGem()
     {
         var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (hit.transform != null && hit.transform.tag is "Square" or "Diamond" or "Hexagon" or "Star")
+        if (hit.transform != null && hit.transform.tag is "Square" or "Diamond" or "Hexagon" or "Luna" or "Circle" or "Heart")
         {
             return hit.transform.gameObject;
         }

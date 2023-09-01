@@ -254,26 +254,41 @@ public class GridOperations : MonoBehaviour
                             }
                         }
 
-                        for (int k = movingGems.Count - 1; k >= 0; k--)
+                        if (movingGems.Count == 0)
                         {
-                            var currentPos = movingGems[k].transform.position;
-                            var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
-                            GameManager.Grid[gridPos.x, gridPos.y - nullCount] = GameManager.Grid[gridPos.x, gridPos.y];
-                            //Debug.Log(nullCount);
-                            movingGems[k].transform.DOMoveY(-nullCount, 1).SetRelative();
-                            if (_verticalInit && k== 0)
+                            for (int l = nullCount; l > 0; l--)
                             {
-                                _verticalInit = false;
-                                for (int l = nullCount; l > 0; l--)
-                                {
-                                    var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
-                                        GameManager.Rows, 0), Quaternion.identity);
-                                    newGem.transform.DOMoveY(-l, 1).SetRelative();
-                                    GameManager.Grid[gridPos.x, GameManager.Rows - l] = newGem;
-                                    newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - l) + ")";
-                                    newGem.transform.SetParent(gemContainer.transform);
-                                }
+                                var newGem = Instantiate(GetRandomGem(), new Vector3(j, 
+                                    GameManager.Rows, 0), Quaternion.identity);
+                                newGem.transform.DOMoveY(-l, 1).SetRelative();
+                                GameManager.Grid[j, GameManager.Rows - l] = newGem;
+                                newGem.name = "(" + j + "," + (GameManager.Rows - l) + ")";
+                                newGem.transform.SetParent(gemContainer.transform);
                             }
+                        }
+                        else
+                        {
+                            for (int k = movingGems.Count - 1; k >= 0; k--)
+                            {
+                                var currentPos = movingGems[k].transform.position;
+                                var gridPos = new Vector2Int((int) currentPos.x, (int) currentPos.y);
+                                GameManager.Grid[gridPos.x, gridPos.y - nullCount] = GameManager.Grid[gridPos.x, gridPos.y];
+                                //Debug.Log(nullCount);
+                                movingGems[k].transform.DOMoveY(-nullCount, 1).SetRelative();
+                                if (_verticalInit && k== 0)
+                                {
+                                    _verticalInit = false;
+                                    for (int l = nullCount; l > 0; l--)
+                                    {
+                                        var newGem = Instantiate(GetRandomGem(), new Vector3(gridPos.x, 
+                                            GameManager.Rows, 0), Quaternion.identity);
+                                        newGem.transform.DOMoveY(-l, 1).SetRelative();
+                                        GameManager.Grid[gridPos.x, GameManager.Rows - l] = newGem;
+                                        newGem.name = "(" + gridPos.x + "," + (GameManager.Rows - l) + ")";
+                                        newGem.transform.SetParent(gemContainer.transform);
+                                    }
+                                }
+                            }   
                         }
                         PrintGrid();
                     }
