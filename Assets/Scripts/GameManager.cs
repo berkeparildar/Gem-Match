@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Animator gameOverAnimator;
     public TextMeshProUGUI gameOverScore;
     public TextMeshProUGUI gameOverHighScore;
-    
+    public RewardedAdsButton rewardedAdsButton;
     public static GameObject[,] Grid;
 
     public static bool canPlay;
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public const int Rows = 8;
 
     public const int Columns = 5;
-    private bool _gameOver;
+    public static bool gameOver;
     public TextMeshProUGUI scoreText;
     public Image timeImage;
     private static readonly int Death = Animator.StringToHash("death");
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         canPlay = true;
-        GameTime = 5;
+        GameTime = 10;
         GameScore = 0;
         Grid = new GameObject[Columns, Rows];
         InitializeGrid();
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckGameTime()
+    public static IEnumerator CheckGameTime()
     {
         while (GameTime > 0)
         {
@@ -78,12 +78,12 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (GameTime > 30)
+        if (GameTime > 10)
         {
-            GameTime = 30;
+            GameTime = 10;
         }
         scoreText.text = "Score: " + GameScore;
-        timeImage.fillAmount = GameTime / 5;
+        timeImage.fillAmount = GameTime / 10;
     }
     
     private GameObject GetRandomGemPrefabWithoutMatch(int col, int row)
@@ -139,13 +139,14 @@ public class GameManager : MonoBehaviour
 
     private void CheckGameOver()
     {
-        if (!_gameOver && GameTime <= 0)
+        if (!gameOver && GameTime <= 0)
         {
+            rewardedAdsButton.LoadAd();
             if (GameScore >= PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", GameScore);
             }
-            _gameOver = true;
+            gameOver = true;
             gameOverAnimator.SetTrigger(Death);
             gameOverScore.text = "Score: " + GameScore;
             gameOverHighScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
