@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] gems;
     public static int GameScore;
     public static float GameTime;
+    public Animator gameOverAnimator;
+    public TextMeshProUGUI gameOverScore;
+    public TextMeshProUGUI gameOverHighScore;
     
     public static GameObject[,] Grid;
 
@@ -22,14 +26,16 @@ public class GameManager : MonoBehaviour
     public const int Rows = 8;
 
     public const int Columns = 5;
+    private bool _gameOver;
     public TextMeshProUGUI scoreText;
     public Image timeImage;
+    private static readonly int Death = Animator.StringToHash("death");
 
     // Start is called before the first frame update
     void Start()
     {
         canPlay = true;
-        GameTime = 30;
+        GameTime = 5;
         GameScore = 0;
         Grid = new GameObject[Columns, Rows];
         InitializeGrid();
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateUI();
+        CheckGameOver();
     }
 
     private void InitializeGrid()
@@ -61,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CheckGameTime()
     {
-        while (GameTime >= 0)
+        while (GameTime > 0)
         {
             GameTime -= 1;
             yield return new WaitForSeconds(1);
@@ -76,7 +83,7 @@ public class GameManager : MonoBehaviour
             GameTime = 30;
         }
         scoreText.text = "Score: " + GameScore;
-        timeImage.fillAmount = GameTime / 30;
+        timeImage.fillAmount = GameTime / 5;
     }
     
     private GameObject GetRandomGemPrefabWithoutMatch(int col, int row)
@@ -128,5 +135,25 @@ public class GameManager : MonoBehaviour
             }
         }
         return verticalMatches >= 3;
+    }
+
+    private void CheckGameOver()
+    {
+        if (!_gameOver && GameTime <= 0)
+        {
+            if (GameScore >= PlayerPrefs.GetInt("HighScore", 0))
+            {
+                PlayerPrefs.SetInt("HighScore", GameScore);
+            }
+            _gameOver = true;
+            gameOverAnimator.SetTrigger(Death);
+            gameOverScore.text = "Score: " + GameScore;
+            gameOverHighScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
+        }
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(sceneBuildIndex: 0);
     }
 }
