@@ -1,45 +1,37 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject[] gems;
+    public static GameObject[,] Grid;
+    public const int Rows = 8;
+    public const int Columns = 5;
+    public GameObject[] gemPrefabs;
     public static int GameScore;
     public static float GameTime;
+    public static bool gameOver;
+    public static bool canPlay;
+    public RewardedAdsButton rewardedAdsButton;
+    public GameObject gemContainer;
     public Animator gameOverAnimator;
     public TextMeshProUGUI gameOverScore;
     public TextMeshProUGUI gameOverHighScore;
-    public RewardedAdsButton rewardedAdsButton;
-    public static GameObject[,] Grid;
-
-    public static bool canPlay;
-    public GameObject gemContainer;
-    public GridOperations gridOperations;
-
-    public const int Rows = 8;
-
-    public const int Columns = 5;
-    public static bool gameOver;
     public TextMeshProUGUI scoreText;
     public Image timeImage;
     private static readonly int Death = Animator.StringToHash("death");
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         canPlay = true;
         GameTime = 10;
         GameScore = 0;
         Grid = new GameObject[Columns, Rows];
         InitializeGrid();
-        GridOperations.PrintGrid();
         StartCoroutine(CheckGameTime());
     }
 
@@ -92,14 +84,14 @@ public class GameManager : MonoBehaviour
         do
         {
             var randomGem =
-                gems[Random.Range(0, gems.Length)];
+                gemPrefabs[Random.Range(0, gemPrefabs.Length)];
             if (!CheckImmediateMatch(col, row, randomGem))
             {
                 return randomGem;
             }
             maxAttempts--;
         } while (maxAttempts > 0);
-        return gems[Random.Range(0, gems.Length)];
+        return gemPrefabs[Random.Range(0, gemPrefabs.Length)];
     }
     
     private bool CheckImmediateMatch(int col, int row, GameObject gemPrefab)

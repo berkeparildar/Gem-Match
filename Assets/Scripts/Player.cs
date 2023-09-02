@@ -1,11 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
@@ -14,115 +9,21 @@ public class Player : MonoBehaviour
     private GameObject _selectedGem;
     public static bool MatchExists;
     public GridOperations gridOperations;
-    public static bool hasPlayed;
+    private  bool _hasPlayed;
 
-    void Start()
+    private void Start()
     {
         _camera = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
-        if (GameManager.canPlay && !hasPlayed)
+        if (GameManager.canPlay && !_hasPlayed)
         {
             Movement();
         }
     }
-
-    private void Movement()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _clickDownPosition = Input.mousePosition;
-            _selectedGem = SelectGem();
-        }
-
-        var dragDirection = (Input.mousePosition - _clickDownPosition).normalized;
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (dragDirection.x > 0.5f)
-            {
-                if (_selectedGem != null)
-                {
-                    hasPlayed = true;
-                    var position = _selectedGem.transform.position;
-                    var currentPosition = new Vector2Int((int)position.x, (int)position.y);
-                    var targetPosition = new Vector2Int(currentPosition.x + 1, currentPosition.y);
-                    GridOperations.CheckMatchForSelected(currentPosition, targetPosition, true);
-                    GridOperations.CheckMatchForSelected(targetPosition, currentPosition, false);
-                    if (MatchExists)
-                    {
-                        MoveGems(currentPosition, targetPosition);
-                    }
-                    else
-                    {
-                        FailedMove(currentPosition, targetPosition);
-                    }
-                }
-            }
-            else if (dragDirection.x < -0.5f)
-            {
-                if (_selectedGem != null)
-                {
-                    hasPlayed = true;
-                    var position = _selectedGem.transform.position;
-                    var currentPosition = new Vector2Int((int)position.x, (int)position.y);
-                    var targetPosition = new Vector2Int(currentPosition.x - 1, currentPosition.y);
-                    GridOperations.CheckMatchForSelected(currentPosition, targetPosition, true);
-                    GridOperations.CheckMatchForSelected(targetPosition, currentPosition, false);
-                    if (MatchExists)
-                    {
-                       MoveGems(currentPosition, targetPosition);
-                    }
-                    else
-                    {
-                        FailedMove(currentPosition, targetPosition);
-                    }
-                }
-            }
-            else if (dragDirection.y > 0.5f)
-            {
-                if (_selectedGem != null)
-                {
-                    hasPlayed = true;
-                    var position = _selectedGem.transform.position;
-                    var currentPosition = new Vector2Int((int)position.x, (int)position.y);
-                    var targetPosition = new Vector2Int(currentPosition.x, currentPosition.y + 1);
-                    GridOperations.CheckMatchForSelected(currentPosition, targetPosition, true);
-                    GridOperations.CheckMatchForSelected(targetPosition, currentPosition, false);
-                    if (MatchExists)
-                    {
-                        MoveGems(currentPosition, targetPosition);
-                    }
-                    else
-                    {
-                        FailedMove(currentPosition, targetPosition);
-                    }
-                }
-            }
-            else if (dragDirection.y < -0.5f)
-            {
-                if (_selectedGem != null)
-                {
-                    hasPlayed = true;
-                    var position = _selectedGem.transform.position;
-                    var currentPosition = new Vector2Int((int)position.x, (int)position.y);
-                    var targetPosition = new Vector2Int(currentPosition.x, currentPosition.y - 1);
-                    GridOperations.CheckMatchForSelected(currentPosition, targetPosition, true);
-                    GridOperations.CheckMatchForSelected(targetPosition, currentPosition, false);
-                    if (MatchExists)
-                    {
-                        MoveGems(currentPosition, targetPosition);
-                    }
-                    else
-                    {
-                        FailedMove(currentPosition, targetPosition);
-                    }
-                }
-            }
-        }
-    }
-
+    
     private GameObject SelectGem()
     {
         var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -135,10 +36,58 @@ public class Player : MonoBehaviour
             return null;
         }
     }
+    
+    private void Movement()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _clickDownPosition = Input.mousePosition;
+            _selectedGem = SelectGem();
+        }
 
+        var dragDirection = (Input.mousePosition - _clickDownPosition).normalized;
+        if (Input.GetMouseButtonUp(0))
+        {
+            CheckAndMove(dragDirection);
+        }
+    }
+
+    private void CheckAndMove(Vector3 dragDirection)
+    {
+        _hasPlayed = true;
+        var position = _selectedGem.transform.position;
+        Vector2Int targetPosition = default;
+        var currentPosition = new Vector2Int((int)position.x, (int)position.y);
+        if (dragDirection.x > 0.5f)
+        {
+            targetPosition = new Vector2Int(currentPosition.x + 1, currentPosition.y);
+        }
+        else if (dragDirection.x < -0.5f)
+        {
+            targetPosition = new Vector2Int(currentPosition.x - 1, currentPosition.y);
+        }
+        else if (dragDirection.y > 0.5f)
+        {
+            targetPosition = new Vector2Int(currentPosition.x, currentPosition.y + 1);
+        }
+        else if (dragDirection.y < -0.5f)
+        {
+            targetPosition = new Vector2Int(currentPosition.x, currentPosition.y - 1);
+        }
+        gridOperations.CheckMatchForSelected(currentPosition, targetPosition, true);
+        gridOperations.CheckMatchForSelected(targetPosition, currentPosition, false);
+        if (MatchExists)
+        {
+            MoveGems(currentPosition, targetPosition);
+        }
+        else
+        {
+            FailedMove(currentPosition, targetPosition);
+        }
+    }
+    
     private void MoveGems(Vector2Int selectedGemPosition, Vector2Int targetGemPosition)
     {
-        var score = 0;
         var selectedGem = GameManager.Grid[selectedGemPosition.x, selectedGemPosition.y];
         var targetGem = GameManager.Grid[targetGemPosition.x, targetGemPosition.y];
         GameManager.Grid[selectedGemPosition.x, selectedGemPosition.y] = targetGem;
@@ -153,7 +102,6 @@ public class Player : MonoBehaviour
             gridOperations.RemoveGems(GridOperations.TargetMatchHorizontal);
             gridOperations.RemoveGems(GridOperations.TargetMatchVertical);
             gridOperations.MoveGemsAfterRemoval();
-            GridOperations.PrintGrid();
             StartCoroutine(CheckIfMatchExists());
 
         });
@@ -173,7 +121,7 @@ public class Player : MonoBehaviour
             targetGem.transform.DOMove(new Vector3(targetGemPosition.x, targetGemPosition.y, 0), 0.5f);
         });
         MatchExists = false;
-        hasPlayed = false;
+        _hasPlayed = false;
     }
 
     private IEnumerator CheckIfMatchExists()
@@ -189,27 +137,15 @@ public class Player : MonoBehaviour
 
         if (GridOperations.RemovalGems.Count > 0)
         {
-            Debug.Log(GridOperations.RemovalGems.Count);
             StartCoroutine(CheckForMatchesAfterRemoval());
             yield break;
         }
-        hasPlayed = false;
+        _hasPlayed = false;
     }
-    
-    private IEnumerator CheckForMatchesAfterRemoval()
-    {
-        gridOperations.RemoveGems(GridOperations.RemovalGems);
-        gridOperations.MoveGemsAfterRemoval();
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(CheckIfMatchExists());
-    }
-
-   
     
     private void CheckForMatches(int col, int row)
     {
         var currentGem = GameManager.Grid[col, row];
-        var destroyedGems = new List<GameObject>();
         var horizontalMatches = 1;
         for (var c = col - 1; c >= 0; c--)
         {
@@ -266,11 +202,18 @@ public class Player : MonoBehaviour
 
         if (horizontalMatches >= 3 || verticalMatches >= 3)
         {
-            Debug.Log("Match exists");
             if (!GridOperations.RemovalGems.Contains(currentGem))
             {
                 GridOperations.RemovalGems.Add(currentGem);
             }
         }
+    }
+    
+    private IEnumerator CheckForMatchesAfterRemoval()
+    {
+        gridOperations.RemoveGems(GridOperations.RemovalGems);
+        gridOperations.MoveGemsAfterRemoval();
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(CheckIfMatchExists());
     }
 }
