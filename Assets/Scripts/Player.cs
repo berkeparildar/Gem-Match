@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     private GameObject _selectedGem;
     public static bool MatchExists;
     public GridOperations gridOperations;
+    public static bool hasPlayed;
 
     void Start()
     {
@@ -21,7 +23,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Movement();
+        if (GameManager.canPlay && !hasPlayed)
+        {
+            Movement();
+        }
     }
 
     private void Movement()
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
             {
                 if (_selectedGem != null)
                 {
+                    hasPlayed = true;
                     var position = _selectedGem.transform.position;
                     var currentPosition = new Vector2Int((int)position.x, (int)position.y);
                     var targetPosition = new Vector2Int(currentPosition.x + 1, currentPosition.y);
@@ -58,6 +64,7 @@ public class Player : MonoBehaviour
             {
                 if (_selectedGem != null)
                 {
+                    hasPlayed = true;
                     var position = _selectedGem.transform.position;
                     var currentPosition = new Vector2Int((int)position.x, (int)position.y);
                     var targetPosition = new Vector2Int(currentPosition.x - 1, currentPosition.y);
@@ -77,6 +84,7 @@ public class Player : MonoBehaviour
             {
                 if (_selectedGem != null)
                 {
+                    hasPlayed = true;
                     var position = _selectedGem.transform.position;
                     var currentPosition = new Vector2Int((int)position.x, (int)position.y);
                     var targetPosition = new Vector2Int(currentPosition.x, currentPosition.y + 1);
@@ -96,6 +104,7 @@ public class Player : MonoBehaviour
             {
                 if (_selectedGem != null)
                 {
+                    hasPlayed = true;
                     var position = _selectedGem.transform.position;
                     var currentPosition = new Vector2Int((int)position.x, (int)position.y);
                     var targetPosition = new Vector2Int(currentPosition.x, currentPosition.y - 1);
@@ -129,6 +138,7 @@ public class Player : MonoBehaviour
 
     private void MoveGems(Vector2Int selectedGemPosition, Vector2Int targetGemPosition)
     {
+        var score = 0;
         var selectedGem = GameManager.Grid[selectedGemPosition.x, selectedGemPosition.y];
         var targetGem = GameManager.Grid[targetGemPosition.x, targetGemPosition.y];
         GameManager.Grid[selectedGemPosition.x, selectedGemPosition.y] = targetGem;
@@ -163,6 +173,7 @@ public class Player : MonoBehaviour
             targetGem.transform.DOMove(new Vector3(targetGemPosition.x, targetGemPosition.y, 0), 0.5f);
         });
         MatchExists = false;
+        hasPlayed = false;
     }
 
     private IEnumerator CheckIfMatchExists()
@@ -182,6 +193,7 @@ public class Player : MonoBehaviour
             StartCoroutine(CheckForMatchesAfterRemoval());
             yield break;
         }
+        hasPlayed = false;
     }
     
     private IEnumerator CheckForMatchesAfterRemoval()
@@ -191,6 +203,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(CheckIfMatchExists());
     }
+
+   
     
     private void CheckForMatches(int col, int row)
     {

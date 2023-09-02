@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GridOperations : MonoBehaviour
@@ -12,6 +14,10 @@ public class GridOperations : MonoBehaviour
     public static List<GameObject> TargetMatchVertical;
     public static List<GameObject> TargetMatchHorizontal;
     public static List<GameObject> RemovalGems;
+    public Image timeImage;
+    
+    public GameObject scoreTextPopUp;
+
 
     public GameObject[] gemPrefabs;
 
@@ -215,8 +221,12 @@ public class GridOperations : MonoBehaviour
 
     public void RemoveGems(List<GameObject> matchingGems)
     {
+        GameManager.GameScore += matchingGems.Count * 100;
+        GameManager.GameTime += matchingGems.Count;
         for (int i = 0; i < matchingGems.Count; i++)
-        {
+        {            
+            var color = matchingGems[i].GetComponent<SpriteRenderer>().color;
+            ShowScorePopUp(matchingGems[i].transform.position, 100, color);
             var gemPosition = matchingGems[i].transform.position;
             var gridPos = new Vector2Int((int) gemPosition.x, (int)gemPosition.y);
             GameManager.Grid[gridPos.x, gridPos.y] = Instantiate(nullObject, gemPosition, Quaternion.identity);
@@ -345,7 +355,6 @@ public class GridOperations : MonoBehaviour
             _verticalInit = true;
             movingGems.Clear();
         }
-        //CheckNull();
     }
 
     public static void CheckNull()
@@ -360,6 +369,20 @@ public class GridOperations : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private void ShowScorePopUp(Vector3 pos, int score, Color color)
+    {
+        var textGameObject = Instantiate(scoreTextPopUp, pos, Quaternion.identity);
+        var text = textGameObject.GetComponent<TextMeshPro>();
+        text.text = score.ToString();
+        text.color = color;
+        timeImage.color = color;
+        text.transform.DOMoveY(1, 0.5f).SetRelative();
+        text.DOColor(new Color(0, 0, 0, 0), 0.5f).OnComplete(() =>
+        {
+            Destroy(text.gameObject, 2);
+        });
     }
 
     public static void PrintGrid()
