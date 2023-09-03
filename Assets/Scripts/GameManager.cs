@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -13,8 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] gemPrefabs;
     public static int GameScore;
     public static float GameTime;
-    public static bool gameOver;
-    public static bool canPlay;
+    public static bool GameOver;
+    public static bool CanPlay;
     public RewardedAdsButton rewardedAdsButton;
     public GameObject gemContainer;
     public Animator gameOverAnimator;
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        canPlay = true;
+        CanPlay = true;
         GameTime = 10;
         GameScore = 0;
         Grid = new GameObject[Columns, Rows];
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
             GameTime -= 1;
             yield return new WaitForSeconds(1);
         }
-        canPlay = false;
+        CanPlay = false;
     }
 
     private void UpdateUI()
@@ -131,14 +132,14 @@ public class GameManager : MonoBehaviour
 
     private void CheckGameOver()
     {
-        if (!gameOver && GameTime <= 0)
+        if (!GameOver && GameTime <= 0)
         {
             rewardedAdsButton.LoadAd();
             if (GameScore >= PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", GameScore);
             }
-            gameOver = true;
+            GameOver = true;
             gameOverAnimator.SetTrigger(Death);
             gameOverScore.text = "Score: " + GameScore;
             gameOverHighScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);

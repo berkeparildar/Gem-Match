@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public static bool MatchExists;
     public GridOperations gridOperations;
     private  bool _hasPlayed;
+    public AudioSource audioSource;
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.canPlay && !_hasPlayed)
+        if (GameManager.CanPlay && !_hasPlayed)
         {
             Movement();
         }
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour
             gridOperations.RemoveGems(GridOperations.TargetMatchVertical);
             gridOperations.MoveGemsAfterRemoval();
             StartCoroutine(CheckIfMatchExists());
-
+            audioSource.Play();
         });
         MatchExists = false;
     }
@@ -212,6 +213,7 @@ public class Player : MonoBehaviour
     private IEnumerator CheckForMatchesAfterRemoval()
     {
         gridOperations.RemoveGems(GridOperations.RemovalGems);
+        audioSource.Play();
         gridOperations.MoveGemsAfterRemoval();
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(CheckIfMatchExists());
