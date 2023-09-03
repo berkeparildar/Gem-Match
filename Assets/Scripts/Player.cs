@@ -21,38 +21,33 @@ public class Player : MonoBehaviour
     {
         if (GameManager.CanPlay && !_hasPlayed)
         {
-            Movement();
+            SelectGem();
         }
     }
     
-    private GameObject SelectGem()
+    private void SelectGem()
     {
-        var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (hit.transform != null && hit.transform.tag is "Square" or "Diamond" or "Hexagon" or "Luna" or "Circle" or "Heart")
+        if (Input.touchCount > 0)
         {
-            return hit.transform.gameObject;
-        }
-        else
-        {
-            return null;
+            var touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                _clickDownPosition = touch.position;
+                var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.GetTouch(0).position), Vector2.zero);
+                if (hit.transform != null && hit.transform.tag is "Square" or "Diamond" or "Hexagon" or "Luna" or "Circle" or "Heart")
+                {
+                    _selectedGem = hit.transform.gameObject;
+                }
+            }
+            else if (touch.phase == TouchPhase.Ended && _selectedGem != null)
+            {
+                Vector3 currentPos = touch.position;
+                var dragDirection = (currentPos - _clickDownPosition).normalized;
+                CheckAndMove(dragDirection);
+            }
         }
     }
     
-    private void Movement()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _clickDownPosition = Input.mousePosition;
-            _selectedGem = SelectGem();
-        }
-
-        var dragDirection = (Input.mousePosition - _clickDownPosition).normalized;
-        if (Input.GetMouseButtonUp(0))
-        {
-            CheckAndMove(dragDirection);
-        }
-    }
-
     private void CheckAndMove(Vector3 dragDirection)
     {
         _hasPlayed = true;
