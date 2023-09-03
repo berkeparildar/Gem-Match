@@ -30,6 +30,11 @@ public class Menu : MonoBehaviour
         howToPlay.SetActive(true);
     }
 
+    public void QuitApp()
+    {
+        Application.Quit();
+    }
+
     public void Close()
     {
         howToPlay.SetActive(false);

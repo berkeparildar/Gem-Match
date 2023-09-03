@@ -4,6 +4,7 @@ using UnityEngine.Advertisements;
  
 public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
+    public GameManager gameManager;
     public Animator deathScreenAnim;
     [SerializeField] Button _showAdButton;
     [SerializeField] string _androidAdUnitId = "Rewarded_Android";

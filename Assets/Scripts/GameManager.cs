@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public static float GameTime;
     public static bool GameOver;
     public static bool CanPlay;
+    private bool _adPlayed;
     public RewardedAdsButton rewardedAdsButton;
     public GameObject gemContainer;
     public Animator gameOverAnimator;
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour
     public Image timeImage;
     private static readonly int Death = Animator.StringToHash("death");
 
-    // Start is called before the first frame update
     private void Start()
     {
         CanPlay = true;
@@ -134,7 +134,11 @@ public class GameManager : MonoBehaviour
     {
         if (!GameOver && GameTime <= 0)
         {
-            rewardedAdsButton.LoadAd();
+            if (!_adPlayed)
+            {
+                rewardedAdsButton.LoadAd();
+                _adPlayed = true;
+            }
             if (GameScore >= PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", GameScore);
@@ -148,6 +152,15 @@ public class GameManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        CanPlay = true;
+        GameTime = 10;
+        GameOver = false;
         SceneManager.LoadScene(sceneBuildIndex: 1);
+        StartCoroutine(GameManager.CheckGameTime());
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
