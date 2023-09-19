@@ -1,3 +1,6 @@
+# Gameplay Video
+[![Gameplay Preview](https://img.youtube.com/vi/jnGv_1mKeRc/0.jpg)](https://www.youtube.com/watch?v=jnGv_1mKeRc)
+
 # Gem Match !
 Gem Match is an addictive puzzle game where players aim to match at least three gems of the same type vertically or horizontally. The game features a grid of colorful gems with six different varieties. Your task is to swap adjacent gems by touching and dragging them to create matching sets. Gems can be swapped to the right, left, down, or upwards, allowing you to strategize and create matches.
 
